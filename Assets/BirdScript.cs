@@ -6,6 +6,9 @@ public class BirdScript : MonoBehaviour
     public float flapStrength = 15;
     public LogicManagerScript logic;
     public bool birdIsAlive = true;
+    public float maxUpRotation = 25f;
+    public float maxDownRotation = -5f;
+    public float rotationSpeed = 10f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -24,6 +27,17 @@ public class BirdScript : MonoBehaviour
         {
             myRigidbody.linearVelocity = Vector2.up * flapStrength;
         }
+
+        float rotationZ = myRigidbody.linearVelocity.y;
+
+        rotationZ = Mathf.Clamp(rotationZ, maxDownRotation, maxUpRotation);
+
+        Quaternion targetRotation = Quaternion.Euler(0, 0, rotationZ);
+
+        transform.rotation = Quaternion.Lerp(
+            transform.rotation,
+            targetRotation,
+            rotationSpeed * Time.deltaTime);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

@@ -3,10 +3,12 @@ using UnityEngine;
 public class PipeMiddleScript : MonoBehaviour
 {
     public LogicManagerScript logic;
+    public AudioSource scoreSound;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicManagerScript>();
+        scoreSound = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -19,6 +21,7 @@ public class PipeMiddleScript : MonoBehaviour
     {
         if (collision.gameObject.layer==3) {
             logic.addScore(1);
+            scoreSound.PlayOneShot(scoreSound.clip);
         }
     }
 }
